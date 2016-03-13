@@ -124,6 +124,13 @@ inline vec3& vec3::operator-=(const vec3& v) {
 }
 
 inline vec3& vec3::operator*=(const float s) {
+    e[0] *= s;
+    e[1] *= s;
+    e[2] *= s;
+    return *this;
+}
+
+inline vec3& vec3::operator/=(const float s) {
     float k = 1.0f/s;
     e[0] *= k;
     e[1] *= k; 
