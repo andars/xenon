@@ -28,7 +28,7 @@ public:
     inline vec3& operator/=(const float s);
 
     inline float length() const {
-        return sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]);
+        return float(sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]));
     }
     inline float squared_length() const {
         return e[0]*e[0] + e[1]*e[1] + e[2]*e[2];
@@ -49,7 +49,7 @@ inline std::ostream& operator<<(std::ostream& os, const vec3& t) {
 }
 
 inline void vec3::normalize() {
-    float k = 1.0 / sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]);
+    float k = 1.0f / float(sqrt(e[0]*e[0] + e[1]*e[1] + e[2]*e[2]));
     e[0] *= k;
     e[1] *= k;
     e[2] *= k;
@@ -124,7 +124,7 @@ inline vec3& vec3::operator-=(const vec3& v) {
 }
 
 inline vec3& vec3::operator*=(const float s) {
-    float k = 1.0/s;
+    float k = 1.0f/s;
     e[0] *= k;
     e[1] *= k; 
     e[2] *= k; 
