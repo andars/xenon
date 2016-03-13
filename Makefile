@@ -1,11 +1,13 @@
 CXX_FLAGS = -std=c++11 -Weverything \
 			-Wno-missing-prototypes -Wno-pedantic \
-			-Wno-padded
+			-Wno-padded -Wno-weak-vtables \
+			-O3
 
-SOURCES = $(wildcard *.cc) $(wildcard *.h)
+SOURCES = $(wildcard *.cc)
+HEADERS = $(wildcard *.h)
 
-main: $(SOURCES) 
-	g++ $< -o $@ -std=c++11 $(CXX_FLAGS)
+main: $(SOURCES) $(HEADERS)
+	g++ $(SOURCES) -o $@ -std=c++11 $(CXX_FLAGS)
 
 run: main
 	./main > output.ppm
