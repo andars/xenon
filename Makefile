@@ -1,4 +1,6 @@
-CXX_FLAGS = -std=c++11 -Weverything -Wno-missing-prototypes 
+CXX_FLAGS = -std=c++11 -Weverything \
+			-Wno-missing-prototypes -Wno-pedantic \
+			-Wno-padded
 
 SOURCES = $(wildcard *.cc) $(wildcard *.h)
 
