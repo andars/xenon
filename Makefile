@@ -1,6 +1,8 @@
 CXX_FLAGS = -std=c++11 -Weverything -Wno-missing-prototypes 
 
-main: main.cc
+SOURCES = $(wildcard *.cc) $(wildcard *.h)
+
+main: $(SOURCES) 
 	g++ $< -o $@ -std=c++11 $(CXX_FLAGS)
 
 run: main
