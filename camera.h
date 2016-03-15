@@ -20,7 +20,7 @@ public:
         vertical = 2*half_height*v;
     }
     
-    ray get_ray(float s, float t) {
+    ray get_ray(float s, float t) const {
         return ray(origin, lower_left_corner + s*horizontal + t*vertical - origin);
     }
 
