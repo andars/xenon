@@ -1,6 +1,9 @@
 #ifndef ENTITY_H_
 #define ENTITY_H_
 
+#include "vec3.h"
+#include "ray.h"
+
 class material;
 
 struct hit_record {
@@ -14,6 +17,8 @@ class entity {
 public:
     virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const = 0;
     virtual ~entity() {}
+
+    material* mat;
 };
 
 #endif

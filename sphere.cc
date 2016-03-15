@@ -1,6 +1,5 @@
 #include "vec3.h"
 #include "ray.h"
-#include "context.h"
 #include "sphere.h"
 
 bool sphere::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {

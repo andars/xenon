@@ -1,6 +1,8 @@
 #ifndef MATERIAL_H_
 #define MATERIAL_H_
 
+#include "context.h"
+
 class material {
 public:
     virtual ~material() {}
