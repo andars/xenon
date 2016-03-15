@@ -1,16 +1,15 @@
 #include <random>
 
 #include "vec3.h"
+#include "context.h"
 
-float rand_float() {
-    static std::default_random_engine gen;
-    static std::uniform_real_distribution<float> rand_real(0, 1);
-    return rand_real(gen);
+float rand_float(const context& ctx) {
+    return ctx.rand_real(ctx.gen);
 }
-vec3 rand_in_unit_sphere() {
+vec3 rand_in_unit_sphere(const context& ctx) {
     vec3 p; 
     do {
-        p = 2.0f * vec3(rand_float(), rand_float(), rand_float()) - vec3(1,1,1);
+        p = 2.0f * vec3(rand_float(ctx), rand_float(ctx), rand_float(ctx)) - vec3(1,1,1);
     } while (p.squared_length() >= 1.0f);
     return p;
 }

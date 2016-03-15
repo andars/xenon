@@ -10,10 +10,10 @@ public:
             fuzz = 1;
         }
     }
-    virtual bool scatter(const ray& r_in, const hit_record& rec,
-                         vec3& attentuation, ray& scattered) const {
-        vec3 reflected = reflect(unit_vector(r_in.direction()), rec.normal);
-        scattered = ray(rec.p, reflected + fuzz*rand_in_unit_sphere());
+    virtual bool scatter(const ray& r, const hit_record& rec, vec3& attentuation,
+                         ray& scattered, const context& ctx) const {
+        vec3 reflected = reflect(unit_vector(r.direction()), rec.normal);
+        scattered = ray(rec.p, reflected + fuzz*rand_in_unit_sphere(ctx));
         attentuation = albedo;
         return (dot(scattered.direction(), rec.normal) > 0);
     }

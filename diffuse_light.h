@@ -6,7 +6,7 @@ public:
     diffuse_light(const vec3& e): emit(e) {}
     
     virtual bool scatter(const ray&, const hit_record&,
-                        vec3&, ray&) const {
+                        vec3&, ray&, const context&) const {
         return false;
     }
 
