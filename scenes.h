@@ -1,3 +1,5 @@
+#include "model.h"
+
 entity* metallic_spheres() {
     int entity_count = 23;
 
@@ -34,4 +36,19 @@ entity* two_spheres_with_light() {
 
     entity *world = new entity_list(list, entity_count);
     return world;
+}
+
+entity* single_triangle() {
+    return new triangle(vec3(0,1,-1),vec3(-1,-1,-1),vec3(1,-1,-1),
+                        new diffuse_light(vec3(0.2,0.2,3.0)));
+}
+
+entity* pi_setup() {
+    model m = load_stl("pi.stl");
+    entity** list = new entity*[m.count+1];
+    for (int i = 0; i<m.count; i++) {
+        list[i] = m.triangles[i];
+    }
+    list[m.count] = new sphere(vec3(0,-200,3),195, new metal(vec3(0.8,0.8,0.8),0.0));
+    return new entity_list(list, m.count+1);
 }

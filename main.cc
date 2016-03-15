@@ -9,6 +9,7 @@
 #include "ray.h"
 #include "entity.h"
 #include "sphere.h"
+#include "triangle.h"
 #include "entity_list.h"
 #include "camera.h"
 #include "material.h"
@@ -16,6 +17,7 @@
 #include "metal.h"
 #include "diffuse_light.h"
 #include "scenes.h"
+#include "model.h"
 
 using std::sqrt;
 
@@ -28,7 +30,7 @@ vec3 ray_color(const ray& r, const entity* world, int depth, const context& ctx)
         vec3 attentuation;
         vec3 emitted = rec.mat_ptr->emitted();
 
-        if (depth < 30 && rec.mat_ptr->scatter(r, rec, attentuation, scattered, ctx)) {
+        if (depth < 20 && rec.mat_ptr->scatter(r, rec, attentuation, scattered, ctx)) {
             return emitted + attentuation*ray_color(scattered, world, depth+1, ctx);
         } else {
             return emitted;
@@ -39,8 +41,8 @@ vec3 ray_color(const ray& r, const entity* world, int depth, const context& ctx)
     vec3 unit_dir = unit_vector(r.direction());
     float t = 0.5f*(unit_dir.y() + 1.0f);
     //return vec3(0,0,0);
-    return vec3(0.01,0.01,0.01);
-    //return (1.0f-t)*vec3(0.0, 0.0, 0.0) + t*vec3(0.1, 0.4, 0.90);
+    //return vec3(0.01,0.01,0.01);
+    return (1.0f-t)*vec3(0.2, 0.2, 0.2) + t*vec3(0.1, 0.4, 0.90);
 }
 
 void render(int nx, int ny, int ns, const entity* world, const camera& cam, uint8_t* pixels) {
@@ -75,15 +77,16 @@ void render(int nx, int ny, int ns, const entity* world, const camera& cam, uint
 }
 
 int main() {
-    int nx = 300;//6000;
-    int ny = 200;//4500;
-    int ns = 400;
+    const int nx = 600;//6000;
+    const int ny = 400;//4500;
+    const int ns = 150;
     std::cout << "P3\n" << nx << " " << ny << "\n255\n";
 
-    entity* world = two_spheres_with_light();
+    //entity* world = single_triangle();
+    entity* world = pi_setup();
     //(300,0,600), (0,0,100)
     //camera cam(vec3(300.0,0.0,600.0), vec3(0,0,200), vec3(0,1,0), 50, float(nx)/float(ny));
-    camera cam(vec3(0,0,1), vec3(0,0,0), vec3(0,1,0), 50, float(nx)/float(ny));
+    camera cam(vec3(0,0,10), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny));
 
     uint8_t** images = new uint8_t*[thread_count];
     for (int i = 0; i<thread_count; i++) {
