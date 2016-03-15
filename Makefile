@@ -7,7 +7,7 @@ SOURCES = $(wildcard *.cc)
 HEADERS = $(wildcard *.h)
 
 main: $(SOURCES) $(HEADERS)
-	clang++ $(SOURCES) -o $@ -std=c++11 $(CXX_FLAGS)
+	clang++ $(SOURCES) -o $@ $(CXX_FLAGS)
 
 run: main
 	./main > output.ppm
