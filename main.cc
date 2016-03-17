@@ -47,6 +47,7 @@ vec3 ray_color(const ray& r, const entity* world, int depth, const context& ctx)
 
 void render(int nx, int ny, int ns, const entity* world, const camera& cam, uint8_t* pixels) {
     std::default_random_engine gen;
+    gen.seed(long(&pixels));
     std::uniform_real_distribution<float> rand_real(0,1);
 
     context ctx = {.gen = gen, .rand_real = rand_real};
