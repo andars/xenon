@@ -11,7 +11,7 @@ public:
     { 
         e0 = v1 - v0;
         e1 = v2 - v0;
-        normal = cross(e0, e1); 
+        normal = unit_vector(cross(e0, e1));
         mat = m;
     }
 

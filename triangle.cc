@@ -20,7 +20,7 @@ bool triangle::hit(const ray& r, float t_min, float t_max, hit_record& rec) cons
 
     float temp = dot(e1, q) * inv_det;
     if (t_min < temp && temp < t_max) {
-        rec.t = dot(e1, q) * inv_det;
+        rec.t = temp;
         rec.p = r.point_at_parameter(rec.t);
         rec.normal = normal;
         return true;
