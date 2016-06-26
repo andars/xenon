@@ -39,16 +39,51 @@ entity* two_spheres_with_light() {
 }
 
 entity* single_triangle() {
-    return new triangle(vec3(0,1,-1),vec3(-1,-1,-1),vec3(1,-1,-1),
-                        new diffuse_light(vec3(0.2,0.2,3.0)));
+    return new triangle(
+            vec3(0,1,-1),
+            vec3(1,-1,-1),
+            vec3(-1,-1,-1),
+            new lambertian(vec3(0.7,0.2,0.2)));
 }
 
 entity* pi_setup() {
     model m = load_stl("pi.stl");
-    entity** list = new entity*[m.count+1];
+    int entity_count = m.count+3;
+    entity** list = new entity*[entity_count];
     for (int i = 0; i<m.count; i++) {
         list[i] = m.triangles[i];
     }
-    list[m.count] = new sphere(vec3(0,-200,3),195, new metal(vec3(0.8,0.8,0.8),0.0));
-    return new entity_list(list, m.count+1);
+    list[entity_count-3] = new sphere(vec3(-20,30,70), 60, new diffuse_light(vec3(1,1,1)));
+    list[entity_count-2] = new sphere(vec3(0,-200,10), 194, new metal(vec3(0.8,0.8,0.8),0.05));
+    list[entity_count-1] = new triangle(
+                                    vec3(0,400,-10),
+                                    vec3(-200,-200,-10),
+                                    vec3(400,-200,-10),
+                                    new lambertian(vec3(0.9,0.9,0.9)));
+
+    return new entity_list(list, entity_count);
+}
+
+entity* projection_setup() {
+    model m = load_stl("proj.stl");
+    int entity_count = m.count + 2;
+    entity** list = new entity*[entity_count];
+    for (int i = 0; i<m.count; i++) {
+        list[i] = m.triangles[i];
+    }
+
+    list[entity_count-2] = new sphere(vec3(0,1,0), 0.5, new diffuse_light(vec3(2,2,2)));
+    list[entity_count-1] = new sphere(vec3(0,-100,0), 97, new lambertian(vec3(0.9,0.9,0.9)));
+
+    return new entity_list(list, entity_count);
+}
+
+entity* model_load(const char* filename) {
+    model m = load_stl(filename);
+    int entity_count = m.count;
+    entity** list = new entity*[entity_count];
+    for (int i = 0; i<m.count; i++) {
+        list[i] = m.triangles[i];
+    }
+    return new entity_list(list, entity_count);
 }
