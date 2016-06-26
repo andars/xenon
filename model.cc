@@ -1,5 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
+#include <vector>
+#include <iostream>
 
 #include "entity.h"
 #include "triangle.h"
@@ -7,10 +9,12 @@
 #include "metal.h"
 #include "model.h"
 
-model load_stl(const char* filename) {
+std::vector<entity*> load_stl(const char* filename) {
     FILE* stl = fopen(filename, "rb");
 
-    model m;
+    if (!stl) {
+        std::cerr << "failed to open " << filename << "\n";
+    }
 
     uint8_t header[80];
     fread(header, sizeof(header), 1, stl);
@@ -18,7 +22,7 @@ model load_stl(const char* filename) {
     uint32_t tri_count;
     fread(&tri_count, 1, 4, stl); 
 
-    entity** triangles = new entity*[tri_count];
+    std::vector<entity*> triangles;
     
     for (int i = 0; i < tri_count; i++) {
         float n[3];
@@ -46,12 +50,12 @@ model load_stl(const char* filename) {
                 vec2 = temp;
             }
         }
-        triangles[i] = new triangle(vec0, vec1, vec2,
-                                    new metal(vec3(0.988,0.05,0.05),0.1));
+        triangles.push_back(new triangle(vec0, vec1, vec2,
+                            new metal(vec3(0.988,0.05,0.05),0.1)));
     }
     fclose(stl);
 
-    m.triangles = triangles;
-    m.count = tri_count;
-    return m;
+    std::cerr << "entity count load: " << triangles.size() << '\n';
+    std::cerr << "entity[0] " << triangles[0] << '\n';
+    return triangles;
 }
