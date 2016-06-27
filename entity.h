@@ -3,6 +3,7 @@
 
 #include "vec3.h"
 #include "ray.h"
+#include "bbox.h"
 
 class material;
 
@@ -19,6 +20,7 @@ public:
     virtual ~entity() {}
 
     material* mat;
+    bbox bounds;
 };
 
 #endif

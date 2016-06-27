@@ -47,7 +47,8 @@ entity* single_triangle() {
 }
 
 entity* pi_setup() {
-    vector<entity*> list = load_stl("models/pi.stl");
+    vector<entity*> list;
+    list.push_back(new entity_list(load_stl("models/pi.stl")));
     list.push_back(new sphere(vec3(-20,30,70), 60, new diffuse_light(vec3(1,1,1))));
     list.push_back(new sphere(vec3(0,-200,10), 194, new metal(vec3(0.8,0.8,0.8),0.05)));
     list.push_back(new triangle(vec3(0,400,-10),

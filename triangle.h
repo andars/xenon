@@ -3,15 +3,20 @@
 
 #include "entity.h"
 #include "material.h"
+#include "bbox.h"
 
 class triangle: public entity {
 public:
     triangle(const vec3& a, const vec3& b, const vec3& c, material* m)
         :v0(a), v1(b), v2(c) 
     { 
+        using std::min;
+        using std::max;
         e0 = v1 - v0;
         e1 = v2 - v0;
         normal = unit_vector(cross(e0, e1));
+        bounds = bbox::U(bbox(v0, v1), v2);
+
         mat = m;
     }
 

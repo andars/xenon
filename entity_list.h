@@ -8,9 +8,13 @@
 class entity_list: public entity {
 public:
     entity_list() {}
-    entity_list(std::vector<entity*> l): list(std::move(l)) {}
+    entity_list(std::vector<entity*> l): list(std::move(l)) {
+        compute_bbox(); 
+    }
     virtual bool hit(const ray& r, float t_min, float t_max, hit_record& rec) const;
 
+private:
+    void compute_bbox();
     std::vector<entity*> list;
 };
 
