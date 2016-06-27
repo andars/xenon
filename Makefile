@@ -9,8 +9,11 @@ HEADERS = $(wildcard *.h)
 main: $(SOURCES) $(HEADERS)
 	clang++ $(SOURCES) -o $@ $(CXX_FLAGS)
 
+debug: CXX_FLAGS += -g
+debug: main
+
 run: main
-	./main > output.ppm
+	time ./main > output.ppm
 	convert output.ppm output.png
 	open output.png
 
