@@ -56,8 +56,6 @@ entity* pi_setup() {
                                 vec3(400,-200,-10),
                                 new lambertian(vec3(0.9,0.9,0.9))));
 
-    std::cerr << "entity count " << list.size() << "\n";
-    std::cerr << "list[0] " << list[0] << "\n";
     return new entity_list(list);
 }
 

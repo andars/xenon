@@ -55,7 +55,5 @@ std::vector<entity*> load_stl(const char* filename) {
     }
     fclose(stl);
 
-    std::cerr << "entity count load: " << triangles.size() << '\n';
-    std::cerr << "entity[0] " << triangles[0] << '\n';
     return triangles;
 }
