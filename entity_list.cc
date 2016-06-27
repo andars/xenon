@@ -1,7 +1,7 @@
 #include "entity_list.h"
 
 bool entity_list::hit(const ray& r, float t_min, float t_max, hit_record& rec) const {
-    //if (!bounds.intersects(r, t_min, t_max)) return false;
+    if (!bounds.intersects(r, t_min, t_max)) return false;
 
     hit_record tmp_rec;
     bool any_hit = false;
