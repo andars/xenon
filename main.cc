@@ -2,6 +2,7 @@
 #include <cmath>
 #include <stdint.h>
 #include <thread>
+#include <float.h>
 
 #include "vec3.h"
 #include "context.h"
@@ -25,12 +26,12 @@ const int thread_count = 4;
 
 vec3 ray_color(const ray& r, const entity* world, int depth, const context& ctx) {
     hit_record rec;
-    if (world->hit(r, 0.01f, MAXFLOAT, rec)) {
+    if (world->hit(r, 0.01f, FLT_MAX, rec)) {
         ray scattered;
         vec3 attentuation;
         vec3 emitted = rec.mat_ptr->emitted();
 
-        if (depth < 20 && rec.mat_ptr->scatter(r, rec, attentuation, scattered, ctx)) {
+        if (depth < 4 && rec.mat_ptr->scatter(r, rec, attentuation, scattered, ctx)) {
             return emitted + attentuation*ray_color(scattered, world, depth+1, ctx);
         } else {
             return emitted;
@@ -41,8 +42,8 @@ vec3 ray_color(const ray& r, const entity* world, int depth, const context& ctx)
     vec3 unit_dir = unit_vector(r.direction());
     float t = 0.5f*(unit_dir.y() + 1.0f);
     //return vec3(0,0,0);
-    //return vec3(0.01,0.01,0.01);
-    return (1.0f-t)*vec3(0.2, 0.2, 0.2) + t*vec3(0.1, 0.4, 0.90);
+    return vec3(0.05,0.05,0.05);
+    //return (1.0f-t)*vec3(0.2, 0.2, 0.2) + t*vec3(0.8, 0.4, 0.90);
 }
 
 void render(int nx, int ny, int ns, const entity* world, const camera& cam, uint8_t* pixels) {
@@ -78,16 +79,20 @@ void render(int nx, int ny, int ns, const entity* world, const camera& cam, uint
 }
 
 int main() {
-    const int nx = 600;//6000;
-    const int ny = 400;//4500;
-    const int ns = 150;
+    const int nx = 300;//6000;
+    const int ny = 300;//4500;
+    const int ns = 128;
     std::cout << "P3\n" << nx << " " << ny << "\n255\n";
 
     //entity* world = single_triangle();
-    entity* world = pi_setup();
+    entity* world = pi_setup();//projection_setup();
+    //entity* world = model_load("teapot.stl");
+    //entity* world = two_spheres_with_light();
     //(300,0,600), (0,0,100)
     //camera cam(vec3(300.0,0.0,600.0), vec3(0,0,200), vec3(0,1,0), 50, float(nx)/float(ny));
-    camera cam(vec3(0,0,10), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny));
+    camera cam(vec3(5,0,12), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny));
+    //camera cam(vec3(0,0,8), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny));
+    //camera cam(vec3(30,0,70), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny));
 
     uint8_t** images = new uint8_t*[thread_count];
     for (int i = 0; i<thread_count; i++) {
