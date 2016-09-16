@@ -1,3 +1,5 @@
 *.ppm
 main
 *.png
+
+models/
