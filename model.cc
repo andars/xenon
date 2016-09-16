@@ -43,8 +43,8 @@ std::vector<entity*> load_stl(const char* filename) {
 
         if (normal.length() > 0) {
             //switch winding order if normal is given & differs from computed
-            vec3 computed = unit_vector(cross(vec1-vec0, vec2-vec0));
-            if ((unit_vector(normal) - computed).length() > 0.01) {
+            vec3 computed = normalize(cross(vec1-vec0, vec2-vec0));
+            if ((normalize(normal) - computed).length() > 0.01) {
                 vec3 temp = vec1;
                 vec1 = vec2;
                 vec2 = temp;

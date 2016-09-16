@@ -13,10 +13,6 @@
 #include "triangle.h"
 #include "entity_list.h"
 #include "camera.h"
-#include "material.h"
-#include "lambertian.h"
-#include "metal.h"
-#include "diffuse_light.h"
 #include "scenes.h"
 #include "model.h"
 
@@ -39,7 +35,7 @@ vec3 ray_color(const ray& r, const entity* world, int depth, const context& ctx)
     }
 
     // didn't hit anything, return background color
-    vec3 unit_dir = unit_vector(r.direction());
+    vec3 unit_dir = normalize(r.direction());
     float t = 0.5f*(unit_dir.y() + 1.0f);
     //return vec3(0,0,0);
     return vec3(0.05,0.05,0.05);
@@ -60,7 +56,7 @@ void render(int nx, int ny, int ns, const entity* world, const camera& cam, uint
             for (int s = 0; s < ns; s++) {
                 float u = float(i + rand_float(ctx)) / float(nx);
                 float v = float(j + rand_float(ctx)) / float(ny);
-                ray r = cam.get_ray(u, v);
+                ray r = cam.get_ray(u, v, ctx);
                 color += ray_color(r, world, 0, ctx);
             }
 
@@ -90,7 +86,7 @@ int main() {
     //entity* world = two_spheres_with_light();
     //(300,0,600), (0,0,100)
     //camera cam(vec3(300.0,0.0,600.0), vec3(0,0,200), vec3(0,1,0), 50, float(nx)/float(ny));
-    camera cam(vec3(5,0,12), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny));
+    camera cam(vec3(5,0,12), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny), 1, 30);
     //camera cam(vec3(0,0,8), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny));
     //camera cam(vec3(30,0,70), vec3(0,0,0), vec3(0,1,0), 90, float(nx)/float(ny));
 
@@ -118,7 +114,7 @@ int main() {
             final[i] = uint8_t(fmin(value/thread_count, 255));
     }
 
-    for (int j = ny-1; j >= 0; j--) {
+    for (int j = 0; j < ny; j++) {
         for (int i = 0; i < nx; i++) {
             int ir = final[3*nx*j + 3*i + 0];
             int ig = final[3*nx*j + 3*i + 1];

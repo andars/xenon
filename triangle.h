@@ -14,7 +14,7 @@ public:
         using std::max;
         e0 = v1 - v0;
         e1 = v2 - v0;
-        normal = unit_vector(cross(e0, e1));
+        normal = normalize(cross(e0, e1));
         bounds = bbox::U(bbox(v0, v1), v2);
 
         mat = m;

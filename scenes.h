@@ -1,6 +1,10 @@
 #include <iostream>
 
 #include "model.h"
+#include "material.h"
+#include "lambertian.h"
+#include "metal.h"
+#include "diffuse_light.h"
 
 using std::vector;
 

@@ -144,7 +144,7 @@ inline vec3& vec3::operator/=(const float s) {
     return *this;
 }
 
-inline vec3 unit_vector(vec3 v) {
+inline vec3 normalize(vec3 v) {
     return v / v.length();
 }
 #endif
