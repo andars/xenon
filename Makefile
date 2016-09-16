@@ -1,13 +1,23 @@
-CXX_FLAGS = -std=c++11 -Weverything \
+BUILD_DIR = ./build
+SRC_DIR = .
+
+CXXFLAGS = -std=c++11 -Weverything \
 			-Wno-missing-prototypes -Wno-pedantic \
 			-Wno-padded -Wno-weak-vtables -Wno-vla \
 			-O3
 
 SOURCES = $(wildcard *.cc)
+OBJECTS = $(SOURCES:%=$(BUILD_DIR)/%.o)
 HEADERS = $(wildcard *.h)
 
-main: $(SOURCES) $(HEADERS)
-	clang++ $(SOURCES) -o $@ $(CXX_FLAGS)
+main: $(OBJECTS) $(HEADERS)
+	$(CXX) $(OBJECTS) -o $@ $(CXXFLAGS)
+
+$(BUILD_DIR)/%.cc.o: %.cc
+	mkdir -p $(dir $@)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+
 
 debug: CXX_FLAGS += -g
 debug: main
@@ -19,4 +29,5 @@ run: main
 
 clean:
 	rm -f main
+	rm -rf $(BUILD_DIR)
 

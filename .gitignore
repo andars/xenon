@@ -3,3 +3,4 @@ main
 *.png
 
 models/
+build/
